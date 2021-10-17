@@ -31,7 +31,12 @@
         <div class="navbar-nav">
           {% if user.is_authenticated %}
           <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="people" href="/people">People</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Sair</a>
+          <form class="d-flex" method="GET">
+            <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" {% if search %}value="{{ search }} {% endif %}">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>
           <a class="nav-item nav-link" id="signUp" href="/sign-up">Criar Conta</a>

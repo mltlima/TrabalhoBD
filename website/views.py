@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
+from . import connection
 import json
 
 views = Blueprint('views', __name__)
@@ -35,3 +36,30 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+
+@views.route("/people")
+def people():
+    with connection.cursor() as cursor:
+        query_args = []
+        query_extra = ""
+        if request.args.get("search"):
+            query_extra = """
+                WHERE LOWER(`name`) LIKE LOWER(%s)
+            """
+            search = "%{}%".format(request.args["search"])
+            query_args = [search]
+        sql = """
+            SELECT
+                `person`.*,
+                `eyeColor`.`Color` as ColorOfEyes,
+                (select `Name` from planet where `ID`=`HomeWorld`) as `HomeWorldName`,
+                (select `Name` from `species` WHERE `ID`=`species`) as `SpecieName`
+            FROM `person`
+            INNER JOIN `eyeColor` ON `person`.`EyeColor` = `eyeColor`.`ID`
+            {}
+            ORDER BY `name` ASC
+            """.format(query_extra)
+        cursor.execute(sql, query_args)
+        result = cursor.fetchall()
+    return render_template("people.html", people=result, search=request.args.get("search"), user=current_user)

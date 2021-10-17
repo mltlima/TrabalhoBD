@@ -1,10 +1,23 @@
-from flask import Flask
+from flask import Flask, render_template, request
+import pymysql.cursors
+import config
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+
+#database filmes
+connection = pymysql.connect(
+    host=config.DATABASE_HOST,
+    port=config.DATABASE_PORT,
+    user=config.DATABASE_USER,
+    password=config.DATABASE_PASSWORD,
+    database=config.DATABASE_NAME,
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
 
 
 def create_app():
