@@ -1,5 +1,5 @@
 database:
-  name: "StarWars"
+  name: "TrabalhoBD"
   username: "root"
   password: "mmsn"
 

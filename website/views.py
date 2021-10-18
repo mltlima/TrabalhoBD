@@ -11,18 +11,28 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    if request.method == 'POST':
-        note = request.form.get('note')
+    with connection.cursor() as cursor:
+        query_args = []
+        query_extra = ""
+        if request.args.get("search"):
+            query_extra = """
+                WHERE LOWER(`nome`) LIKE LOWER(%s)
+            """
+            search = "%{}%".format(request.args["search"])
+            query_args = [search]
+        sql = """
+            SELECT
+                `escola`.*,
+                `endereço`.`distrito` as distrito
+            FROM `escola`
+            INNER JOIN `endereço` ON `escola`.`fk_cep` = `endereço`.`cep`
+            {}
+            ORDER BY `nome` ASC
+            """.format(query_extra)
+        cursor.execute(sql, query_args)
+        result = cursor.fetchall()
 
-        if len(note) < 1:
-            flash('Note is too short!', category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-
-    return render_template("home.html", user=current_user)
+    return render_template("home.html", escola=result, search=request.args.get("search"), user=current_user)
 
 
 @views.route('/delete-note', methods=['POST'])
@@ -38,28 +48,26 @@ def delete_note():
     return jsonify({})
 
 
-@views.route("/people")
-def people():
+@views.route("/escola")
+def endereco():
     with connection.cursor() as cursor:
         query_args = []
         query_extra = ""
         if request.args.get("search"):
             query_extra = """
-                WHERE LOWER(`name`) LIKE LOWER(%s)
+                WHERE LOWER(`nome`) LIKE LOWER(%s)
             """
             search = "%{}%".format(request.args["search"])
             query_args = [search]
         sql = """
             SELECT
-                `person`.*,
-                `eyeColor`.`Color` as ColorOfEyes,
-                (select `Name` from planet where `ID`=`HomeWorld`) as `HomeWorldName`,
-                (select `Name` from `species` WHERE `ID`=`species`) as `SpecieName`
-            FROM `person`
-            INNER JOIN `eyeColor` ON `person`.`EyeColor` = `eyeColor`.`ID`
+                `escola`.*,
+                `endereço`.`distrito` as distrito
+            FROM `escola`
+            INNER JOIN `endereço` ON `escola`.`fk_cep` = `endereço`.`cep`
             {}
-            ORDER BY `name` ASC
+            ORDER BY `nome` ASC
             """.format(query_extra)
         cursor.execute(sql, query_args)
         result = cursor.fetchall()
-    return render_template("people.html", people=result, search=request.args.get("search"), user=current_user)
+    return render_template("escola.html", escola=result, search=request.args.get("search"), user=current_user)

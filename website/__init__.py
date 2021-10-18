@@ -8,7 +8,7 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
-#database filmes
+#database do trabalho
 connection = pymysql.connect(
     host=config.DATABASE_HOST,
     port=config.DATABASE_PORT,
