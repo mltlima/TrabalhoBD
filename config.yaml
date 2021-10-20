@@ -1,7 +1,7 @@
 database: 
   name: "TrabalhoBD"
   username: "root"
-  password: "digite_sua_senha"
+  password: "mmsn"
 
 
 # debug: true
