@@ -122,3 +122,20 @@ def recurso():
         cursor.execute(sql, query_args)
         result = cursor.fetchall()
     return render_template("recurso.html", recurso=result, search=request.args.get("search"), user=current_user)
+
+
+@views.route("/graph")
+def graph():
+    data = [
+        ("01-01-2021",1970),
+        ("02-01-2021",197),
+        ("03-01-2021",45),
+        ("04-01-2021",7895),
+        ("05-01-2021",2000),
+        ("06-01-2021",20)
+    ]
+
+    labels = [row[0] for row in data]
+    values = [row[1] for row in data]
+
+    return render_template("graph.html", labelTest=labels, dataTest=values, user=current_user)

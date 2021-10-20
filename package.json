@@ -1,0 +1,26 @@
+{
+  "name": "bdwebsite",
+  "version": "1.0.0",
+  "description": "```\r mysql> create database TrabalhoBD;\r mysql> exit\r mysql -u root -p  TrabalhoBD < TrabalhoBD.sql\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mltlima/TrabalhoBD.git"
+  },
+  "author": "Miguel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mltlima/TrabalhoBD/issues"
+  },
+  "homepage": "https://github.com/mltlima/TrabalhoBD#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chart.js": "^3.5.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "mysql": "^2.18.1"
+  }
+}
