@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %} Escolas - Banco de Dados {% endblock %}
+{% block content %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">UF</th>
+        <th scope="col">Município</th>
+        <th scope="col">Bairro</th>
+        <th scope="col">Distrito</th>
+        <th scope="col">CEP</th>
+        <th scope="col">Logradouro</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ender in endereco %}
+        <tr>
+          <th scope="row">{{ ender.Nome | title }}</th>
+          <td>{{ ender.UF or "unknown" }}</td>
+          <td>{{ ender.Município or "unknown" }}</td>
+          <td>{{ ender.Bairro or "unknown" }}</td>
+          <td>{{ ender.Distrito or "unknown" }}</td>
+          <td>{{ ender.CEP or "unknown" }}</td>
+          <td>{{ ender.Logradouro or "unknown" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

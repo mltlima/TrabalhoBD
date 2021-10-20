@@ -31,7 +31,9 @@
         <div class="navbar-nav">
           {% if user.is_authenticated %}
           <a class="nav-item nav-link" id="home" href="/">Home</a>
-          <a class="nav-item nav-link" id="endereco" href="/escola">Escolas</a>
+          <a class="nav-item nav-link" id="escola" href="/escola">Escolas</a>
+          <a class="nav-item nav-link" id="endereco" href="/endereco">Endereço</a>
+          <a class="nav-item nav-link" id="recurso" href="/recurso">Recursos</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Sair</a>
           <form class="d-flex" method="GET">
             <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" {% if search %}value="{{ search }} {% endif %}">

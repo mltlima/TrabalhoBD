@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %} Recursos {% endblock %}
+{% block content %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Nome Recurso</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for resource in recurso %}
+        <tr>
+          <th scope="row">{{ resource.NomeEscola | title }}</th>
+          <td>{{ resource.Nome or "unknown" }}</td>
+          <td>{{ resource.Tipo or "unknown" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

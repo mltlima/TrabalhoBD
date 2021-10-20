@@ -1,6 +1,7 @@
-database:
+database: 
   name: "TrabalhoBD"
   username: "root"
   password: "mmsn"
+
 
 # debug: true

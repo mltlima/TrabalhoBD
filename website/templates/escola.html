@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Endereços - Banco de Dados {% endblock %}
+{% block title %} Escolas - Banco de Dados {% endblock %}
 {% block content %}
 <table class="table">
     <thead>
@@ -7,6 +7,7 @@
         <th scope="col">Nome</th>
         <th scope="col">Código</th>
         <th scope="col">Rede</th>
+        <th scope="col">Telefone</th>
         <th scope="col">Condição de Funcionamento</th>
       </tr>
     </thead>
@@ -16,8 +17,10 @@
           <th scope="row">{{ school.Nome | title }}</th>
           <td>{{ school.Código or "unknown" }}</td>
           <td>{{ school.Rede or "unknown" }}</td>
+          <td>{{ school.telefone or "unknown" }}</td>
           <td>{{ school.Condição_Funcionamento or "unknown" }}</td>
         </tr>
+      
       {% endfor %}
     </tbody>
   </table>
