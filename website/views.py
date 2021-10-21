@@ -126,16 +126,32 @@ def recurso():
 
 @views.route("/graph")
 def graph():
-    data = [
-        ("01-01-2021",1970),
-        ("02-01-2021",197),
-        ("03-01-2021",45),
-        ("04-01-2021",7895),
-        ("05-01-2021",2000),
-        ("06-01-2021",20)
-    ]
+    with connection.cursor() as cursor:
+        query_args = []
+        query_extra = ""
+        sql = """
+            SELECT
+               `Nome`
+            FROM `Recurso`
+            {}
+            ORDER BY `Nome` ASC
+            """.format(query_extra)
+        cursor.execute(sql, query_args)
+        recursosTrash = cursor.fetchall()
+        recursos = []
+        for itemTrash in recursosTrash:
+            for i,item in itemTrash.items():
+                recursos.append(item)
 
-    labels = [row[0] for row in data]
-    values = [row[1] for row in data]
+        quantidade = []
 
-    return render_template("graph.html", labelTest=labels, dataTest=values, user=current_user)
+        for recurso in range(33):
+            sql = f"SELECT COUNT(fk_Recurso_ID) FROM Escola_Recurso WHERE fk_Recurso_ID LIKE {recurso}".format(query_extra)
+            cursor.execute(sql, query_args)
+            quantidadeItem = cursor.fetchall()
+            for i,item in quantidadeItem[0].items():
+                #print(item)
+
+                quantidade.append(item) 
+
+    return render_template("graph.html", labelTest=recursos, dataTest=quantidade, user=current_user)
