@@ -138,7 +138,9 @@ def graph():
             """.format(query_extra)
         cursor.execute(sql, query_args)
         recursosTrash = cursor.fetchall()
+
         recursos = []
+
         for itemTrash in recursosTrash:
             for i,item in itemTrash.items():
                 recursos.append(item)
@@ -153,5 +155,35 @@ def graph():
                 #print(item)
 
                 quantidade.append(item) 
+        
 
-    return render_template("graph.html", labelTest=recursos, dataTest=quantidade, user=current_user)
+        # Matriculas
+        sql = """
+            SELECT
+               `Número`
+            FROM `Série`
+            {}
+            ORDER BY `Número` ASC
+            """.format(query_extra)
+        cursor.execute(sql, query_args)
+        SeriesTrash = cursor.fetchall()
+
+        series = []
+        
+        for serieTrash in SeriesTrash:
+            for i,item in serieTrash.items():
+                series.append(item)
+        
+
+        quantidadeSeries = []
+
+        for serie in range(12):
+            sql = f"SELECT SUM(Quantidade) FROM Matrícula WHERE fk_Série_ID LIKE {serie}".format(query_extra)
+            cursor.execute(sql, query_args)
+            quantidadeItem = cursor.fetchall()
+            for i,item in quantidadeItem[0].items():
+                #print(item)
+
+                quantidadeSeries.append(item) 
+
+    return render_template("graph.html", labelTest=recursos, dataTest=quantidade, series=series, quantidade=quantidadeSeries, user=current_user)
